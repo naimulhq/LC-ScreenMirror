@@ -5,6 +5,7 @@ class ScreenMirrorConnection:
         pass
 
     def findNearbyDevices(self):
+        server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         try:
             nearby_devices = bluetooth.discover_devices(lookup_names=True, duration=20)
         except OSError:
@@ -32,8 +33,14 @@ class ScreenMirrorConnection:
             soc.connect((addr,port))
         except bluetooth.btcommon.BluetoothError as err:
             print("Error. Unable to connect!")
-        soc.recv(1024)
-        soc.send("Hello World")
+        
+        imageFile = open('Python.png','rb')
+        bytes = imageFile.read()
+        size = len(bytes)
+
+        soc.sendall("SIZE %s" % size)
+        answer = soc.recv(4096)
+        print(answer)
 
 
 

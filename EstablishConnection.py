@@ -21,12 +21,15 @@ class ScreenMirrorConnection:
         port = 1
         for addr,name in nearby_devices:
             print(str(count) + ". Address: {} - Name: {}".format(addr,name))
+            address.append(addr)
             count += 1
 
         device_number = int(input("Choose a device: "))
         if device_number <= 0 or device_number > len(nearby_devices):
             print("Wrong Number")
             exit()
+        else:
+            addr = address[device_number-1]
 
         try:
             soc = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
@@ -34,15 +37,6 @@ class ScreenMirrorConnection:
         except bluetooth.btcommon.BluetoothError as err:
             print("Error. Unable to connect!")
         
-        imageFile = open('Python.png','rb')
-        bytes = imageFile.read()
-        size = len(bytes)
-
-        soc.sendall("SIZE %s" % size)
-        answer = soc.recv(4096)
-        print(answer)
-
-
 
 if __name__ == '__main__':
     conn = ScreenMirrorConnection()

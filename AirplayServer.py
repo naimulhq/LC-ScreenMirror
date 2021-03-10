@@ -13,11 +13,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print('Connected by', addr)
         data = b''
         while True:
-            part = conn.recv(1024)
-            data += part
-            if len(part) < 1024:
-                break
+            part = conn.recv(40000,socket.MSG_WAITALL)
+            break
 
-print("Bytes in Server: ", len(data))
-#decoded = cv2.imdecode(np.frombuffer(data, np.uint8), -1)
-#cv2.imwrite('PythonTest2.png',decoded)
+print("Bytes in Server: ", len(part))
+decoded = cv2.imdecode(np.frombuffer(part, np.uint8), -1)
+cv2.imwrite('PythonTest2.png',decoded)

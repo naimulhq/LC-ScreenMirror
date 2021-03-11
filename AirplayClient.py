@@ -1,17 +1,24 @@
 import socket
-import cv2
+import pyautogui
 import numpy as np
-f = open('Python.png','rb')
-image_bytes = f.read()
-print("Length Client: ", len(image_bytes))
+import cv2
+import pickle
 
-HOST = '127.0.0.1'  # The server's hostname or IP address
+
+
+HOST = '192.168.1.120'  # The server's hostname or IP address
 PORT = 1800       # The port used by the server
 
 # Create a socket which will transfer data.
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
-
-    s.sendall(image_bytes)
+    while True:
+        pyautogui.screenshot("screen.png")
+        image = cv2.imread("screen.png")
+        image_bytes = pickle.dumps(image)
+        print("Length: ", len(image_bytes))
+        s.sendall(image_bytes)
+        result = s.recv(1024)
+        print("Result: ", result.decode("utf-8"))
     
 

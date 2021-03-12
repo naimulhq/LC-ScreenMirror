@@ -6,16 +6,17 @@ import pickle
 
 # Create a socket that will recieve data
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    host = "192.168.1.120"
+    host = ""
     port = 1800
     s.bind((host,port))
     s.listen(1)
     conn, addr = s.accept()
     with conn:
         print('Connected by', addr)
-        data = b''
+        size_data = int(conn.recv(1024))
+        conn.send(bytes("Size Recieved!", "utf-8"))
         while True:
-            part = conn.recv(6220962,socket.MSG_WAITALL)
+            part = conn.recv(size_data,socket.MSG_WAITALL)
             part = pickle.loads(part)
             conn.send(bytes("Recieved","utf-8"))
             cv2.imshow('frame',part)

@@ -21,9 +21,15 @@ class AirplayClient:
                 pass
      
     def dataTransfer(self):
-        # Create a socket which will transfer data.
+        
+        ScreenImage = AirplayClient.getScreen(self.scale_percent)
+        image_bytes = pickle.dumps(ScreenImage)
+        total_bytes = len(image_bytes)
+        
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.HOSTIP, self.PORT))
+            s.sendall(bytes(str(total_bytes),"utf-8"))
+            s.recv(1024)
             while True:
                 ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)
@@ -41,5 +47,5 @@ class AirplayClient:
         return cv2.resize(ScreenImage, dsize)
 
 if __name__ == '__main__':
-    client = AirplayClient(port=1800,hostname="Hello World")
+    client = AirplayClient(port=1800,host_ip='')
     client.dataTransfer()

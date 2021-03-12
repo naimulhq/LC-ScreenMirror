@@ -6,33 +6,40 @@ import pickle
 
 
 class AirplayClient:
-    def __init__(self):
-        pass
-    
-    def dataTransfer(self):
-        HOST = ''  # The server's hostname or IP address
-        PORT = 1800       # The port used by the server
+    def __init__(self, **kwargs):
 
+        self.HOSTIP = None if not ('host_ip' in kwargs) else kwargs['host_ip']
+        self.PORT = None if not ('port' in kwargs) else kwargs['port']
+        self.HOSTNAME = None if not ('hostname' in kwargs) else kwargs['hostname']
+        self.scale_percent = .7 if not ('scale_percent' in  kwargs) else kwargs['scale_percent']
+
+        if(self.HOSTIP is None and self.HOSTNAME is None):
+            print("Need either hostname or host ip")
+            exit()
+        else:
+            if(self.HOSTIP is None):
+                pass
+     
+    def dataTransfer(self):
         # Create a socket which will transfer data.
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((HOST, PORT))
+            s.connect((self.HOSTIP, self.PORT))
             while True:
-                ScreenImage = AirplayClient.getScreen()
+                ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)
                 print("Length: ", len(image_bytes))
                 s.sendall(image_bytes)
                 result = s.recv(1024)
                 print("Result: ", result.decode("utf-8"))
     
-    def getScreen():
+    def getScreen(scale_percent):
         ScreenImage = np.array(pyautogui.screenshot())
         ScreenImage = cv2.cvtColor(ScreenImage,cv2.COLOR_BGR2RGB)
-        scale_percent = 70
-        width = int(ScreenImage.shape[1] * scale_percent / 100)
-        height = int(ScreenImage.shape[0] * scale_percent / 100)
+        width = int(ScreenImage.shape[1] * scale_percent) 
+        height = int(ScreenImage.shape[0] * scale_percent)
         dsize = (width, height)
         return cv2.resize(ScreenImage, dsize)
 
 if __name__ == '__main__':
-    client = AirplayClient()
+    client = AirplayClient(port=1800,hostname="Hello World")
     client.dataTransfer()

@@ -2,6 +2,7 @@ import tkinter as tk
 import PIL
 from PIL import ImageTk
 from PIL import Image
+from AirplayClient import AirplayClient
 
 class AirplayGUI:
     def __init__(self):
@@ -12,8 +13,14 @@ class AirplayGUI:
     def getInfo(self):
         ip = self.ipEntry.get()
         hostname = self.hostnameEntry.get()
+        port = self.portEntry.get()
+        scale=self.scaleEntry.get()
+        client = AirplayClient(port=port,host_ip=ip,hostname=hostname,scale_percent=scale)
+        client.dataTransfer()
+        
 
     def userInputScreen(self):
+        self.welcome.destroy()
         userInputWindow = tk.Tk()
         userInputWindow.title("LC - Screen Mirroring")
         userInputWindow.geometry('400x200')
@@ -23,13 +30,25 @@ class AirplayGUI:
         hostnameInput = tk.Label(text="Hostname: ")
         self.hostnameEntry = tk.Entry()
 
+        portInput = tk.Label(text="Port: ")
+        self.portEntry = tk.Entry()
+
+        scaleInput = tk.Label(text="Scale Percentage(Between 0 - 1): ")
+        self.scaleEntry = tk.Entry()
+
         btn = tk.Button(userInputWindow,text="Submit", command = self.getInfo)
         btn2 = tk.Button(userInputWindow,text="I don't know", command = userInputWindow.destroy)
+
+
 
         ipInput.pack()
         self.ipEntry.pack()
         hostnameInput.pack()
         self.hostnameEntry.pack()
+        portInput.pack()
+        self.portEntry.pack()
+        scaleInput.pack()
+        self.scaleEntry.pack()
         btn.pack(side='left')
         btn2.pack(side='right') 
         
@@ -37,16 +56,19 @@ class AirplayGUI:
         userInputWindow.mainloop()
 
     def WelcomeScreen(self):
-        welcome = tk.Tk()
-       
+        self.welcome = tk.Tk()
+        self.welcome.title("Welcome to LC - Screen Mirroring")
+        self.welcome.resizable(0,0)
         img = ImageTk.PhotoImage(Image.open('LC.png'))
-        panel = tk.Label(welcome,image=img)
-        btn1 = tk.Button(welcome,text="Client",command=welcome.destroy)
-        btn2 = tk.Button(welcome,text="Server", command=welcome.destroy)
+        panel = tk.Label(self.welcome,image=img)
+        prompt = tk.Label(text="Choose between Client or Server Device")
+        btn1 = tk.Button(self.welcome,text="Client",command=self.userInputScreen)
+        btn2 = tk.Button(self.welcome,text="Server", command=self.welcome.destroy)
         panel.pack()
+        prompt.pack()
         btn1.pack(side='left')
         btn2.pack(side='right')
-        welcome.mainloop()
+        self.welcome.mainloop()
         
 
 if __name__ == '__main__':

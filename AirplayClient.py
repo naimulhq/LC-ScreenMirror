@@ -8,10 +8,10 @@ import pickle
 class AirplayClient:
     def __init__(self, **kwargs):
 
-        self.HOSTIP = None if not ('host_ip' in kwargs) else kwargs['host_ip']
-        self.PORT = None if not ('port' in kwargs) else kwargs['port']
-        self.HOSTNAME = None if not ('hostname' in kwargs) else kwargs['hostname']
-        self.scale_percent = .7 if not ('scale_percent' in  kwargs) else kwargs['scale_percent']
+        self.HOSTIP = None if (kwargs['host_ip'] == '') else kwargs['host_ip']
+        self.PORT = None if (kwargs['port'] == '')  else int(kwargs['port'])
+        self.HOSTNAME = None if (kwargs['hostname'] == '')  else kwargs['hostname']
+        self.scale_percent = .7 if (kwargs['scale_percent'] == '')  else float(kwargs['scale_percent'])
 
         if(self.HOSTIP is None and self.HOSTNAME is None):
             print("Need either hostname or host ip")
@@ -45,7 +45,3 @@ class AirplayClient:
         height = int(ScreenImage.shape[0] * scale_percent)
         dsize = (width, height)
         return cv2.resize(ScreenImage, dsize)
-
-if __name__ == '__main__':
-    client = AirplayClient(port=1800,host_ip='')
-    client.dataTransfer()

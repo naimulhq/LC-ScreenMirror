@@ -10,18 +10,22 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     port = 1800
     s.bind((host,port))
     s.listen(1)
-    conn, addr = s.accept()
-    with conn:
-        print('Connected by', addr)
-        size_data = int(conn.recv(1024))
-        conn.send(bytes("Size Recieved!", "utf-8"))
-        while True:
-            part = conn.recv(size_data,socket.MSG_WAITALL)
-            part = pickle.loads(part)
-            conn.send(bytes("Recieved","utf-8"))
-            cv2.imshow('frame',part)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-
-
+    while True:
+        conn, addr = s.accept()
+        accept = input("{} is trying to connect. Do you accept?".format(addr))
+        if(accept == "no"):
+            conn.close()
+            print("Connection Closed")
+            exit()
+        else:
+            with conn:
+                print('Connected by', addr)
+                size_data = int(conn.recv(1024))
+                conn.send(bytes("Size Recieved!", "utf-8"))
+                while True:
+                    part = conn.recv(size_data,socket.MSG_WAITALL)
+                    part = pickle.loads(part)
+                    conn.send(bytes("Recieved","utf-8"))
+                    cv2.imshow('frame',part)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break

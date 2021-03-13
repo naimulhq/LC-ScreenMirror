@@ -63,13 +63,22 @@ class AirplayGUI:
         panel = tk.Label(self.welcome,image=img)
         prompt = tk.Label(text="Choose between Client or Server Device")
         btn1 = tk.Button(self.welcome,text="Client",command=self.userInputScreen)
-        btn2 = tk.Button(self.welcome,text="Server", command=self.welcome.destroy)
+        btn2 = tk.Button(self.welcome,text="Server", command=self.serverConnectionScreen)
         panel.pack()
         prompt.pack()
         btn1.pack(side='left')
         btn2.pack(side='right')
         self.welcome.mainloop()
         
+    def serverConnectionScreen(self):
+        self.welcome.quit
+        self.server = tk.Tk()
+        self.server.title("Server Setup")
+        self.server.resizable(0,0)
+        self.server.geometry("400x200")
+        connecting = tk.Label(text="Waiting for Connection . . .")
+        connecting.pack()
+        self.server.mainloop()
 
 if __name__ == '__main__':
     GUI = AirplayGUI()

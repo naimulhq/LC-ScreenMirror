@@ -3,11 +3,12 @@ import PIL
 from PIL import ImageTk
 from PIL import Image
 from AirplayClient import AirplayClient
+from AirplayServer import serverConnection, acceptData
+import concurrent.futures
 
 class AirplayGUI:
     def __init__(self):
         self.WelcomeScreen()
-        self.userInputScreen()
         pass
     
     def getInfo(self):
@@ -76,9 +77,23 @@ class AirplayGUI:
         self.server.title("Server Setup")
         self.server.resizable(0,0)
         self.server.geometry("400x200")
-        connecting = tk.Label(text="Waiting for Connection . . .")
+        btn1 = tk.Button(self.server,text="Connect",command=self.TransmitData)
+        btn2 = tk.Button(self.server,text="Refuse", command=self.WelcomeScreen)
+        texts = tk.StringVar(self.server)
+        texts.set("Waiting for Connection . . .")
+        connecting = tk.Label(self.server,textvariable=texts)
         connecting.pack()
-        self.server.mainloop()
+        btn1.pack(side='left')
+        btn2.pack(side='right')
+        self.server.update_idletasks()
+        self.server.update()
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            f1 = executor.submit(serverConnection)
+            self.conn,addr = f1.result()
+            texts.set("{} is trying to connect. \nDo you accept?".format(addr))
+
+    def TransmitData(self):
+        acceptData(self.conn)
 
 if __name__ == '__main__':
     GUI = AirplayGUI()

@@ -5,6 +5,7 @@ import cv2
 import pickle
 
 
+
 class AirplayClient:
     def __init__(self, **kwargs):
 

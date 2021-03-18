@@ -6,13 +6,14 @@ import pickle
 
 
 
+
 class AirplayClient:
     def __init__(self, **kwargs):
 
         self.HOSTIP = None if (kwargs['host_ip'] == '') else kwargs['host_ip']
         self.PORT = None if (kwargs['port'] == '')  else int(kwargs['port'])
         self.HOSTNAME = None if (kwargs['hostname'] == '')  else kwargs['hostname']
-        self.scale_percent = .7 if (kwargs['scale_percent'] == '')  else float(kwargs['scale_percent'])
+        self.scale_percent = .2 if (kwargs['scale_percent'] == '')  else float(kwargs['scale_percent'])
 
         if(self.HOSTIP is None and self.HOSTNAME is None):
             print("Need either hostname or host ip")

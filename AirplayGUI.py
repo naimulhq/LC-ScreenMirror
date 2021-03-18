@@ -24,7 +24,7 @@ class AirplayGUI:
         self.welcome.destroy()
         userInputWindow = tk.Tk()
         userInputWindow.title("LC - Screen Mirroring")
-        userInputWindow.geometry('400x200')
+        
         ipInput = tk.Label(text="Host IP:")
         self.ipEntry = tk.Entry()
 
@@ -76,9 +76,11 @@ class AirplayGUI:
         self.server = tk.Tk()
         self.server.title("Server Setup")
         self.server.resizable(0,0)
-        self.server.geometry("400x200")
+       
         btn1 = tk.Button(self.server,text="Connect",command=self.TransmitData)
+        btn1["state"] = "disabled"
         btn2 = tk.Button(self.server,text="Refuse", command=self.WelcomeScreen)
+        btn2["state"] = "disabled"
         texts = tk.StringVar(self.server)
         texts.set("Waiting for Connection . . .")
         connecting = tk.Label(self.server,textvariable=texts)
@@ -91,6 +93,8 @@ class AirplayGUI:
             f1 = executor.submit(serverConnection)
             self.conn,addr = f1.result()
             texts.set("{} is trying to connect. \nDo you accept?".format(addr))
+            btn1["state"] = "normal"
+            btn2["state"] = "normal"
 
     def TransmitData(self):
         acceptData(self.conn)

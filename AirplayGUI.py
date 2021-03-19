@@ -18,8 +18,7 @@ class AirplayGUI:
         scale=self.scaleEntry.get()
         client = AirplayClient(port=port,host_ip=ip,hostname=hostname,scale_percent=scale)
         client.dataTransfer()
-        
-
+       
     def userInputScreen(self):
         self.welcome.destroy()
         userInputWindow = tk.Tk()
@@ -39,7 +38,7 @@ class AirplayGUI:
 
         btn = tk.Button(userInputWindow,text="Submit", command = self.getInfo)
         btn2 = tk.Button(userInputWindow,text="I don't know", command = userInputWindow.destroy)
-
+        previewButton = tk.Button(userInputWindow,text="Preview Screen", command = self.previewScreenWindow)
 
 
         ipInput.pack()
@@ -51,6 +50,7 @@ class AirplayGUI:
         scaleInput.pack()
         self.scaleEntry.pack()
         btn.pack(side='left')
+        previewButton.pack(side='left')
         btn2.pack(side='right') 
         
  
@@ -98,6 +98,23 @@ class AirplayGUI:
 
     def TransmitData(self):
         acceptData(self.conn)
+
+    def previewScreenWindow(self):
+        previewWindow = tk.Tk()
+        scalePrompt = tk.Label(previewWindow,text="Enter a scale between 0 and 1: ")
+        scaleEntry2 = tk.Entry(previewWindow)
+        submitScaleButton = tk.Button(previewWindow,text="Submit Preview",command=self.displayPreview)
+        scalePrompt.pack()
+        scaleEntry2.pack()
+        submitScaleButton.pack()
+        pass
+
+    def displayPreview(self):
+        scale = int(self.scaleEntry2.get())
+        if scale < 0 or scale > 1:
+            print("Try again")
+        else:
+            pass
 
 if __name__ == '__main__':
     GUI = AirplayGUI()

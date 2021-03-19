@@ -32,6 +32,8 @@ class AirplayClient:
             s.connect((self.HOSTIP, self.PORT))
             s.sendall(bytes(str(total_bytes),"utf-8"))
             s.recv(1024)
+            s.sendall(bytes(str(socket.gethostname()),"utf-8"))
+            s.recv(1024)
             while True:
                 ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)

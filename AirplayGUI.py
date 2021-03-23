@@ -58,28 +58,52 @@ class AirplayGUI:
         userInputWindow.mainloop()
 
     def findDevices(self):
-        os.system("nmap -sn * > scans.txt")
+        os.system("nmap -sn > scans.txt")
         scanfile = open('scans.txt','r')
         lines = scanfile.readlines()
         del lines[0]
         del lines[len(lines)-1]
         i = 0
-        hostnames = []
-        ips = []
+        self.hostnames = []
+        self.ips = []
         while(i < len(lines)):
             temp_list = lines[i].split()
-            hostnames.append(temp_list[4])
-            ips.append(temp_list[4])
+            if(len(temp_list) == 5):
+                i+=2
+                continue
+            self.hostnames.append(temp_list[4])
+            a_ip = temp_list[5].replace('(','')
+            a_ip = a_ip.replace(')','')
+            self.ips.append(a_ip)
             i += 2
         self.findDevicesWindow = tk.Toplevel()
+        scale = tk.Label(self.findDevicesWindow,text="Scale Percent(Value between 0 and 1): ")
+        self.scaleVal = tk.Entry(self.findDevicesWindow)
         img = ImageTk.PhotoImage(Image.open('LC.png'))
         panel = tk.Label(self.findDevicesWindow,image=img)
-        devices_listbox = tk.Listbox(self.findDevicesWindow)
+        connectButton = tk.Button(self.findDevicesWindow,text="Connect",command=self.connectUsingDevice)
+        homeButton = tk.Button(self.findDevicesWindow,text="Home",command=self.WelcomeScreen)
+        self.devices_listbox = tk.Listbox(self.findDevicesWindow)
         panel.pack()
-        devices_listbox.pack(pady=15)
-        for item in hostnames:
-            devices_listbox.insert("end",item)
+        self.devices_listbox.pack(pady=10)
+        scale.pack()
+        self.scaleVal.pack()
+        connectButton.pack(side='left')
+        homeButton.pack(side='right')
+        for item in self.hostnames:
+            self.devices_listbox.insert("end",item)
         self.findDevicesWindow.mainloop()
+
+    def connectUsingDevice(self):
+        name = self.devices_listbox.get(tk.ANCHOR)
+        scale = self.scaleVal.get()
+        for i in range(len(self.hostnames)):
+            if self.hostnames[i] == name:
+                ip = self.ips[i]
+                break
+        client = AirplayClient(host_ip=ip,hostname='',port=1800,scale_percent=scale)
+        client.dataTransfer()
+        
 
     def WelcomeScreen(self):
         self.welcome = tk.Tk()

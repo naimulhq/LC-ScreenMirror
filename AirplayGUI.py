@@ -5,6 +5,7 @@ from PIL import Image
 from AirplayClient import AirplayClient
 from AirplayServer import serverConnection, acceptData
 import concurrent.futures
+import os
 
 class AirplayGUI:
     def __init__(self):
@@ -39,7 +40,7 @@ class AirplayGUI:
         self.scaleEntry = tk.Entry()
 
         btn = tk.Button(userInputWindow,text="Submit", command = self.getInfo)
-        btn2 = tk.Button(userInputWindow,text="Find Devices", command = userInputWindow.destroy)
+        btn2 = tk.Button(userInputWindow,text="Find Devices", command = self.findDevices)
         
         panel.pack()
         ipInput.pack()
@@ -55,6 +56,30 @@ class AirplayGUI:
         
  
         userInputWindow.mainloop()
+
+    def findDevices(self):
+        os.system("nmap -sn * > scans.txt")
+        scanfile = open('scans.txt','r')
+        lines = scanfile.readlines()
+        del lines[0]
+        del lines[len(lines)-1]
+        i = 0
+        hostnames = []
+        ips = []
+        while(i < len(lines)):
+            temp_list = lines[i].split()
+            hostnames.append(temp_list[4])
+            ips.append(temp_list[4])
+            i += 2
+        self.findDevicesWindow = tk.Toplevel()
+        img = ImageTk.PhotoImage(Image.open('LC.png'))
+        panel = tk.Label(self.findDevicesWindow,image=img)
+        devices_listbox = tk.Listbox(self.findDevicesWindow)
+        panel.pack()
+        devices_listbox.pack(pady=15)
+        for item in hostnames:
+            devices_listbox.insert("end",item)
+        self.findDevicesWindow.mainloop()
 
     def WelcomeScreen(self):
         self.welcome = tk.Tk()
@@ -73,10 +98,11 @@ class AirplayGUI:
         
     def serverConnectionScreen(self):
         self.welcome.quit
-        self.server = tk.Tk()
+        self.server = tk.Toplevel()
         self.server.title("Server Setup")
         self.server.resizable(0,0)
-       
+        img = ImageTk.PhotoImage(Image.open('LC.png'))
+        panel = tk.Label(self.server,image=img)
         btn1 = tk.Button(self.server,text="Connect",command=self.TransmitData)
         btn1["state"] = "disabled"
         btn2 = tk.Button(self.server,text="Refuse", command=self.WelcomeScreen)
@@ -84,6 +110,7 @@ class AirplayGUI:
         texts = tk.StringVar(self.server)
         texts.set("Waiting for Connection . . .")
         connecting = tk.Label(self.server,textvariable=texts)
+        panel.pack()
         connecting.pack()
         btn1.pack(side='left')
         btn2.pack(side='right')

@@ -7,6 +7,7 @@ from AirplayServer import serverConnection, acceptData
 import concurrent.futures
 import os
 import pickle
+import cv2
 
 class AirplayGUI:
     def __init__(self):
@@ -174,6 +175,7 @@ class AirplayGUI:
         try:
             acceptData(self.conn)
         except (pickle.UnpicklingError, ConnectionResetError) as e:
+            cv2.destroyAllWindows()
             temp_window = tk.Toplevel()
             temp_window.title("Server Error")
             temp_window.resizable(0,0)

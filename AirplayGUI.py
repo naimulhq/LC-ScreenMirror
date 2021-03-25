@@ -29,6 +29,7 @@ class AirplayGUI:
 
         ipInput = tk.Label(text="Host IP:")
         self.ipEntry = tk.Entry()
+        
 
         hostnameInput = tk.Label(text="Hostname: ")
         self.hostnameEntry = tk.Entry()
@@ -58,7 +59,7 @@ class AirplayGUI:
         userInputWindow.mainloop()
 
     def findDevices(self):
-        os.system("nmap -sn > scans.txt")
+        os.system("nmap -sn  > scans.txt")
         scanfile = open('scans.txt','r')
         lines = scanfile.readlines()
         del lines[0]
@@ -144,6 +145,8 @@ class AirplayGUI:
             f1 = executor.submit(serverConnection)
             self.conn,addr = f1.result()
             texts.set("{} is trying to connect. \nDo you accept?".format(addr))
+            panel.configure(image=img)
+            panel.image = img
             btn1["state"] = "normal"
             btn2["state"] = "normal"
 

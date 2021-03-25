@@ -4,9 +4,6 @@ import numpy as np
 import cv2
 import pickle
 
-
-
-
 class AirplayClient:
     def __init__(self, **kwargs):
 
@@ -34,13 +31,12 @@ class AirplayClient:
             s.recv(1024)
             s.sendall(bytes(str(socket.gethostname()),"utf-8"))
             s.recv(1024)
+            
             while True:
                 ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)
-                print("Length: ", len(image_bytes))
                 s.sendall(image_bytes)
                 result = s.recv(1024)
-                print("Result: ", result.decode("utf-8"))
     
     def getScreen(scale_percent):
         ScreenImage = np.array(pyautogui.screenshot())
@@ -49,3 +45,9 @@ class AirplayClient:
         height = int(ScreenImage.shape[0] * scale_percent)
         dsize = (width, height)
         return cv2.resize(ScreenImage, dsize)
+
+    def sendPreviewImage(scale_percent):
+        ScreenImage = AirplayClient.getScreen(self.scale_percent)
+        image_bytes = pickle.dumps(ScreenImage)
+        s.sendall(image_bytes)
+        result = s.recv(1024)

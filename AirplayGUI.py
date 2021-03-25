@@ -6,6 +6,7 @@ from AirplayClient import AirplayClient
 from AirplayServer import serverConnection, acceptData
 import concurrent.futures
 import os
+import pickle
 
 class AirplayGUI:
     def __init__(self):
@@ -22,7 +23,7 @@ class AirplayGUI:
     def userInputScreen(self):
         self.welcome.destroy()
         userInputWindow = tk.Tk()
-        userInputWindow.title("LC - Screen Mirroring")
+        userInputWindow.title("Client Information")
 
         img = ImageTk.PhotoImage(Image.open('LC.png'))
         panel = tk.Label(userInputWindow,image=img)
@@ -78,6 +79,7 @@ class AirplayGUI:
             self.ips.append(a_ip)
             i += 2
         self.findDevicesWindow = tk.Toplevel()
+        self.findDevicesWindow.title("Find Devices")
         scale = tk.Label(self.findDevicesWindow,text="Scale Percent(Value between 0 and 1): ")
         self.scaleVal = tk.Entry(self.findDevicesWindow)
         img = ImageTk.PhotoImage(Image.open('LC.png'))
@@ -151,8 +153,18 @@ class AirplayGUI:
             btn2["state"] = "normal"
 
     def TransmitData(self):
-        acceptData(self.conn)
-
+        try:
+            acceptData(self.conn)
+        except (pickle.UnpicklingError, ConnectionResetError) as e:
+            temp_window = tk.Toplevel()
+            temp_window.title("Error")
+            temp_window.resizable(0,0)
+            img = ImageTk.PhotoImage(Image.open('LC.png'))
+            panel = tk.Label(temp_window,image=img)
+            pickleLabel = tk.Label(temp_window,text="Connection Severed by Client during streaming!")
+            panel.pack()
+            pickleLabel.pack()
+            temp_window.mainloop()
 
 if __name__ == '__main__':
     GUI = AirplayGUI()

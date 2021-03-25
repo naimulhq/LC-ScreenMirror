@@ -22,11 +22,11 @@ class AirplayGUI:
 
     def userInputScreen(self):
         self.welcome.destroy()
-        userInputWindow = tk.Tk()
-        userInputWindow.title("Client Information")
+        self.userInputWindow = tk.Tk()
+        self.userInputWindow.title("Client Information")
 
         img = ImageTk.PhotoImage(Image.open('LC.png'))
-        panel = tk.Label(userInputWindow,image=img)
+        panel = tk.Label(self.userInputWindow,image=img)
 
         ipInput = tk.Label(text="Host IP:")
         self.ipEntry = tk.Entry()
@@ -41,8 +41,9 @@ class AirplayGUI:
         scaleInput = tk.Label(text="Scale Percent(Value between 0 and 1): ")
         self.scaleEntry = tk.Entry()
 
-        btn = tk.Button(userInputWindow,text="Submit", command = self.getInfo)
-        btn2 = tk.Button(userInputWindow,text="Find Devices", command = self.findDevices)
+        btn = tk.Button(self.userInputWindow,text="Submit", command = self.getInfo)
+        btn2 = tk.Button(self.userInputWindow,text="Find Devices", command = self.findDevices)
+        returnHomeButton = tk.Button(self.userInputWindow,text="Home", command = self.goHomeFromInputScreen)
         
         panel.pack()
         ipInput.pack()
@@ -54,10 +55,15 @@ class AirplayGUI:
         scaleInput.pack()
         self.scaleEntry.pack()
         btn.pack(side='left')
-        btn2.pack(side='right') 
+        btn2.pack(side='left')
+        returnHomeButton.pack(side='right') 
         
  
-        userInputWindow.mainloop()
+        self.userInputWindow.mainloop()
+
+    def goHomeFromInputScreen(self):
+        self.userInputWindow.destroy()
+        self.WelcomeScreen()
 
     def findDevices(self):
         os.system("nmap -sn  > scans.txt")

@@ -9,12 +9,15 @@ def serverConnection():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         host = ""
         port = 1800
-        s.bind((host,port))
-        s.listen(1)
-        while True:
-            conn, addr = s.accept()
-            if conn != None: 
-                return conn, addr
+        try:
+            s.bind((host,port))
+            s.listen(1)
+            while True:
+                conn, addr = s.accept()
+                if conn != None: 
+                    return conn, addr
+        except OSError:
+            raise OSError
 
 def acceptData(conn):
     with conn:
@@ -29,6 +32,3 @@ def acceptData(conn):
             cv2.imshow(hostname,part)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-
-def previewScreen(conn):
-    pass

@@ -130,8 +130,8 @@ class AirplayGUI:
         self.welcome.mainloop()
         
     def serverConnectionScreen(self):
-        self.welcome.quit
-        self.server = tk.Toplevel()
+        self.welcome.destroy()
+        self.server = tk.Tk()
         self.server.title("Server Setup")
         self.server.resizable(0,0)
         img = ImageTk.PhotoImage(Image.open('LC.png'))
@@ -150,20 +150,32 @@ class AirplayGUI:
         self.server.update_idletasks()
         self.server.update()
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            f1 = executor.submit(serverConnection)
-            self.conn,addr = f1.result()
-            texts.set("{} is trying to connect. \nDo you accept?".format(addr))
-            panel.configure(image=img)
-            panel.image = img
-            btn1["state"] = "normal"
-            btn2["state"] = "normal"
+            try:
+                f1 = executor.submit(serverConnection)
+                self.conn,addr = f1.result()
+                texts.set("{} is trying to connect. \nDo you accept?".format(addr))
+                panel.configure(image=img)
+                panel.image = img
+                btn1["state"] = "normal"
+                btn2["state"] = "normal"
+            except OSError:
+                temp_window = tk.Toplevel()
+                temp_window.title("Error")
+                temp_window.resizable(0,0)
+                img = ImageTk.PhotoImage(Image.open('LC.png'))
+                panel = tk.Label(temp_window,image=img)
+                pickleLabel = tk.Label(temp_window,text="Server is already running. Close Window!")
+                panel.pack()
+                pickleLabel.pack()
+                temp_window.mainloop()
+    
 
     def TransmitData(self):
         try:
             acceptData(self.conn)
         except (pickle.UnpicklingError, ConnectionResetError) as e:
             temp_window = tk.Toplevel()
-            temp_window.title("Error")
+            temp_window.title("Server Error")
             temp_window.resizable(0,0)
             img = ImageTk.PhotoImage(Image.open('LC.png'))
             panel = tk.Label(temp_window,image=img)

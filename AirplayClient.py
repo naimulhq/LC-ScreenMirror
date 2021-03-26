@@ -37,6 +37,7 @@ class AirplayClient:
                 ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)
                 image_bytes = zlib.compress(image_bytes)
+                print("Total Bytes: ", len(image_bytes))
                 s.sendall(bytes(str(len(image_bytes)),"utf-8"))
                 s.recv(1024)
                 print("Total Bytes: ", len(image_bytes))

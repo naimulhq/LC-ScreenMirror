@@ -3,6 +3,7 @@ import pyautogui
 import numpy as np
 import cv2
 import pickle
+import zlib
 
 class AirplayClient:
     def __init__(self, **kwargs):
@@ -23,7 +24,9 @@ class AirplayClient:
         
         ScreenImage = AirplayClient.getScreen(self.scale_percent)
         image_bytes = pickle.dumps(ScreenImage)
+        #image_bytes = zlib.compress(image_bytes)
         total_bytes = len(image_bytes)
+        print("Total Bytes 1: ", total_bytes)
         
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.HOSTIP, self.PORT))
@@ -35,6 +38,8 @@ class AirplayClient:
             while True:
                 ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)
+                #image_bytes = zlib.compress(image_bytes)
+                #print("Total Bytes: ", len(image_bytes))
                 s.sendall(image_bytes)
                 result = s.recv(1024)
     

@@ -21,10 +21,9 @@ class AirplayClient:
                 pass
      
     def dataTransfer(self):
-        
         ScreenImage = AirplayClient.getScreen(self.scale_percent)
         image_bytes = pickle.dumps(ScreenImage)
-        #image_bytes = zlib.compress(image_bytes)
+        image_bytes = zlib.compress(image_bytes)
         total_bytes = len(image_bytes)
         print("Total Bytes 1: ", total_bytes)
         
@@ -34,12 +33,13 @@ class AirplayClient:
             s.recv(1024)
             s.sendall(bytes(str(socket.gethostname()),"utf-8"))
             s.recv(1024)
-            
             while True:
                 ScreenImage = AirplayClient.getScreen(self.scale_percent)
                 image_bytes = pickle.dumps(ScreenImage)
-                #image_bytes = zlib.compress(image_bytes)
-                #print("Total Bytes: ", len(image_bytes))
+                image_bytes = zlib.compress(image_bytes)
+                s.sendall(bytes(str(len(image_bytes)),"utf-8"))
+                s.recv(1024)
+                print("Total Bytes: ", len(image_bytes))
                 s.sendall(image_bytes)
                 result = s.recv(1024)
     

@@ -8,6 +8,7 @@ import concurrent.futures
 import os
 import pickle
 import cv2
+import time
 
 class AirplayGUI:
     def __init__(self):
@@ -184,7 +185,12 @@ class AirplayGUI:
             pickleLabel = tk.Label(temp_window,text="Connection Severed by Client during streaming!")
             panel.pack()
             pickleLabel.pack()
-            temp_window.mainloop()
+            temp_window.update_idletasks()
+            temp_window.update()
+            time.sleep(1)
+            temp_window.destroy()
+            self.server.destroy()
+            self.WelcomeScreen()
 
 if __name__ == '__main__':
     GUI = AirplayGUI()

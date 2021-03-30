@@ -93,7 +93,7 @@ class AirplayGUI:
         img = ImageTk.PhotoImage(Image.open('LC.png'))
         panel = tk.Label(self.findDevicesWindow,image=img)
         connectButton = tk.Button(self.findDevicesWindow,text="Connect",command=self.connectUsingDevice)
-        homeButton = tk.Button(self.findDevicesWindow,text="Home",command=self.WelcomeScreen)
+        homeButton = tk.Button(self.findDevicesWindow,text="Home",command=self.DeviceToHome)
         self.devices_listbox = tk.Listbox(self.findDevicesWindow)
         panel.pack()
         self.devices_listbox.pack(pady=10)
@@ -104,6 +104,11 @@ class AirplayGUI:
         for item in self.hostnames:
             self.devices_listbox.insert("end",item)
         self.findDevicesWindow.mainloop()
+
+    def DeviceToHome(self):
+    	self.findDevicesWindow.destroy()
+    	self.userInputWindow.destroy()
+    	self.WelcomeScreen()
 
     def connectUsingDevice(self):
         name = self.devices_listbox.get(tk.ANCHOR)

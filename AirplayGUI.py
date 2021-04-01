@@ -21,6 +21,7 @@ class AirplayGUI:
         scale = self.scaleEntry.get()
         client = AirplayClient(port=port,host_ip=ip,hostname=hostname,scale_percent=scale)
         client.dataTransfer()
+        
 
     def userInputScreen(self):
         self.welcome.destroy()
@@ -68,7 +69,7 @@ class AirplayGUI:
         self.WelcomeScreen()
 
     def findDevices(self):
-        os.system("nmap -sn  > scans.txt")
+        os.system("nmap -sn * > scans.txt")
         scanfile = open('scans.txt','r')
         lines = scanfile.readlines()
         del lines[0]
@@ -180,7 +181,7 @@ class AirplayGUI:
     def TransmitData(self):
         try:
             acceptData(self.conn)
-        except (pickle.UnpicklingError, ConnectionResetError) as e:
+        except (pickle.UnpicklingError, ConnectionResetError, ValueError) as e:
             cv2.destroyAllWindows()
             temp_window = tk.Toplevel()
             temp_window.title("Server Error")
@@ -192,7 +193,7 @@ class AirplayGUI:
             pickleLabel.pack()
             temp_window.update_idletasks()
             temp_window.update()
-            time.sleep(1)
+            time.sleep(3)
             temp_window.destroy()
             self.server.destroy()
             self.WelcomeScreen()

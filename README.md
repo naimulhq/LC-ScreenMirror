@@ -31,3 +31,10 @@
 * Once server finds client connection, server will be prompted to accept or refuse connection.
 * Accepting will begin the streaming process.
 * Refusing will sever connection between the client and server and return to home screen.
+
+
+# Server Side Display
+<img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/MirrorStreaming.png>
+
+* The server gets a screenshot from the client side and displays the image using OpenCV.
+* User can click End Stream to sever the connection to the server device.

@@ -1,5 +1,7 @@
 # Lucid Circuit Screen Mirroring Application
 
+ In order to use the application, you will need to install the software in the client device and server device.
+
 # Home Screen
 <img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/LCWelcomeScreen.png>
 
@@ -9,12 +11,13 @@
 # Client Menu
 <img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/ClientScreen.png>
 
-* You will need to enter the Host IP and Port Number. Default is 1800. All other entries are optional
-* If you are unaware of the device, you can find the device you are trying to connect to.
-* Scale Percent is optional but different values will result in different appearences of your screen on the server. 
+* You will need to enter the Host IP and Port Number. Default is 1800. All other entries are optional.
+* If you are unaware of the device, you can find the device you are trying to connect to by selecting Find Device.
+* Scale Percent is optional but different values will result in different appearences of your screen on the server side. 
 
 # Find Devices Menu
 <img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/FindDevices.png>
+
 * Select device that appears in list and put value for scale percent
 * Click connect to connect to the device chosen
 

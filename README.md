@@ -9,7 +9,7 @@
 * Choose Server if the device you are using is the device that will be recieveing the stream.
 
 # Client Menu
-<img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/ClientScreen.png>
+<img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/ClientSide.png>
 
 * You will need to enter the Host IP and Port Number. Default is 1800. All other entries are optional.
 * If you are unaware of the device, you can find the device you are trying to connect to by selecting Find Device.

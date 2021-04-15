@@ -4,11 +4,13 @@ import numpy as np
 import cv2
 import pickle
 import zlib
+from tkinter import messagebox
 import tkinter as tk
 import PIL
 from PIL import ImageTk
 from PIL import Image
 import threading
+
 
 class AirplayClient:
     def __init__(self, **kwargs):
@@ -61,8 +63,14 @@ class AirplayClient:
         self.EndStream = False
         btn = tk.Button(self.EndConnection,text="End Stream", command = self.setBool)
         btn.pack(side='left')
+        def on_closing():
+            if messagebox.askokcancel("Quit","Do you want to End Stream"):
+                self.setBool()
+                self.EndConnection.destroy()
+        self.EndConnection.protocol("WM_DELETE_WINDOW",on_closing)
         self.EndConnection.update_idletasks()
         self.EndConnection.update()
+
     
     def setBool(self):
         self.EndStream = True

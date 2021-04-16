@@ -8,6 +8,7 @@ mkdir LucidCircuit
 cd LucidCircuit
 git clone https://github.com/naimulhq/LC-ScreenMirror
 cd LC-ScreenMirror
+chmod 0777 install.sh
 ./install.sh
 ```
 You can run the application by calling ``` python3 AirplayGUI.py```

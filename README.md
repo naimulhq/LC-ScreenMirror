@@ -1,6 +1,14 @@
 # Lucid Circuit Screen Mirroring Application
 
  In order to use the application, you will need to install the software in the client device and server device.
+ 
+ Run the following commands:
+```
+mkdir LucidCircuit
+cd LucidCircuit
+git clone https://github.com/naimulhq/LC-ScreenMirror
+./install.sh
+```
 
 # Home Screen
 <img src = https://github.com/naimulhq/LC-ScreenMirror/blob/main/images/LCWelcomeScreen.png>

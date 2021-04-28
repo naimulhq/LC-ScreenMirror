@@ -1,4 +1,5 @@
 # Lucid Circuit Screen Mirroring Application
+![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg?style=plastic) </br>
 
  In order to use the application, you will need to install the software in the client device and server device.
  

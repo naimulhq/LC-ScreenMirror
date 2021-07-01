@@ -9,10 +9,12 @@ import os
 import pickle
 import cv2
 import time
+import subprocess
 
 class AirplayGUI:
     def __init__(self):
-        self.imagePath ="/home/naimul/LucidCircuit/LC.png"
+        self.user = (subprocess.check_output(['whoami'])).decode('utf-8').strip()
+        self.imagePath ="/home/" + self.user +"/LucidCircuit/LC.png"
         self.WelcomeScreen()
         
     def getInfo(self):

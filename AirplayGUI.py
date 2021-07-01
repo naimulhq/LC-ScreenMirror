@@ -12,8 +12,9 @@ import time
 
 class AirplayGUI:
     def __init__(self):
+        self.imagePath ="/home/naimul/LucidCircuit/LC.png"
         self.WelcomeScreen()
-       
+        
     def getInfo(self):
         ip = self.ipEntry.get()
         hostname = self.hostnameEntry.get()
@@ -28,7 +29,7 @@ class AirplayGUI:
         self.userInputWindow = tk.Tk()
         self.userInputWindow.title("Client Information")
 
-        img = ImageTk.PhotoImage(Image.open('LC.png'))
+        img = ImageTk.PhotoImage(Image.open(self.imagePath))
         panel = tk.Label(self.userInputWindow,image=img)
 
         ipInput = tk.Label(text="Host IP:")
@@ -91,7 +92,7 @@ class AirplayGUI:
         self.findDevicesWindow.title("Find Devices")
         scale = tk.Label(self.findDevicesWindow,text="Scale Percent(Value between 0 and 1): ")
         self.scaleVal = tk.Entry(self.findDevicesWindow)
-        img = ImageTk.PhotoImage(Image.open('LC.png'))
+        img = ImageTk.PhotoImage(Image.open(self.imagePath))
         panel = tk.Label(self.findDevicesWindow,image=img)
         connectButton = tk.Button(self.findDevicesWindow,text="Connect",command=self.connectUsingDevice)
         homeButton = tk.Button(self.findDevicesWindow,text="Home",command=self.DeviceToHome)
@@ -126,7 +127,7 @@ class AirplayGUI:
         self.welcome = tk.Tk()
         self.welcome.title("Welcome to LC - Screen Mirroring")
         self.welcome.resizable(0,0)
-        img = ImageTk.PhotoImage(Image.open('LC.png'))
+        img = ImageTk.PhotoImage(Image.open(self.imagePath))
         panel = tk.Label(self.welcome,image=img)
         prompt = tk.Label(text="Choose between Client or Server Device")
         btn1 = tk.Button(self.welcome,text="Client",command=self.userInputScreen)
@@ -142,7 +143,7 @@ class AirplayGUI:
         self.server = tk.Tk()
         self.server.title("Server Setup")
         self.server.resizable(0,0)
-        img = ImageTk.PhotoImage(Image.open('LC.png'))
+        img = ImageTk.PhotoImage(Image.open(self.imagePath))
         panel = tk.Label(self.server,image=img)
         btn1 = tk.Button(self.server,text="Connect",command=self.TransmitData)
         btn1["state"] = "disabled"
@@ -170,7 +171,7 @@ class AirplayGUI:
                 temp_window = tk.Toplevel()
                 temp_window.title("Error")
                 temp_window.resizable(0,0)
-                img = ImageTk.PhotoImage(Image.open('LC.png'))
+                img = ImageTk.PhotoImage(Image.open(self.imagePath))
                 panel = tk.Label(temp_window,image=img)
                 pickleLabel = tk.Label(temp_window,text="Server is already running. Close Window!")
                 panel.pack()
@@ -186,7 +187,7 @@ class AirplayGUI:
             temp_window = tk.Toplevel()
             temp_window.title("Server Error")
             temp_window.resizable(0,0)
-            img = ImageTk.PhotoImage(Image.open('LC.png'))
+            img = ImageTk.PhotoImage(Image.open(self.imagePath))
             panel = tk.Label(temp_window,image=img)
             pickleLabel = tk.Label(temp_window,text="Connection Severed by Client during streaming!")
             panel.pack()

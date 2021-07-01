@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=LC Screen Mirror
-Exec=./LucidCircuit/dist/AirplayGUI
+Exec=./LucidCircuit/dist/AirplayGUI/AirplayGUI
 Terminal=false
 Icon=/home/naimul/LucidCircuit/images/LucidCircuit.jpeg
 Type=Application
